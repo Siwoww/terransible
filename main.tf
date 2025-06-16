@@ -4,7 +4,7 @@ resource "aws_vpc" "main-vpc" {
   enable_dns_support = true
 
   tags = {
-    Name = "main-vpc-${random_id.random}"
+    Name = "main-vpc-${random_id.random.dec}"
   }
 }
 
@@ -12,7 +12,7 @@ resource "aws_internet_gateway" "main-internet-gateway" {
   vpc_id = aws_vpc.main-vpc.id
 
   tags = {
-    Name = "terransible-igw-${random_id.random}"
+    Name = "terransible-igw-${random_id.random.dec}"
   }
 }
 
