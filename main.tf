@@ -35,6 +35,10 @@ resource "aws_route" "default-route" {
   gateway_id = aws_internet_gateway.main-internet-gateway.id
 }
 
+resource "aws_default_route_table" "main_private_rt" {
+  default_route_table_id = aws_vpc.main-vpc.default_route_table_id
+}
+
 resource "random_id" "random" {
   byte_length = 2
 }
