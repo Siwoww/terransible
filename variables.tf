@@ -1,3 +1,3 @@
-variable "cidr_block" {
+variable "vpc_cidr" {
   type = string
 }
