@@ -8,8 +8,10 @@ resource "aws_vpc" "main-vpc" {
   }
 
   lifecycle {
-    create_before_destroy = true
-  }
+    create_before_destroy = true #Essendo l-igw dipendente dalla vpc, nel momento in cui si prova a cambiare un attributo che comporta la distruzione/creazione,
+                                 #la distruzione si blocca. Inserendo invece il create_before_destroy l'igw viene associato alla nuova risorsa creata, staccandola dalla vecchia,
+                                 #rendendone possibile la distruzione
+  } 
 }
 
 resource "aws_internet_gateway" "main-internet-gateway" {
@@ -18,6 +20,19 @@ resource "aws_internet_gateway" "main-internet-gateway" {
   tags = {
     Name = "terransible-igw-${random_id.random.dec}"
   }
+}
+
+resource "aws_route_table" "main-public-rt" {
+  vpc_id = aws_vpc.main-vpc.id
+  tags = {
+    Name = "main-public"
+  }
+}
+
+resource "aws_route" "default-route" {
+  route_table_id = aws_route_table.main-public-rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.main-internet-gateway.id
 }
 
 resource "random_id" "random" {
