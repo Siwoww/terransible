@@ -6,6 +6,10 @@ resource "aws_vpc" "main-vpc" {
   tags = {
     Name = "main-vpc-${random_id.random.dec}"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_internet_gateway" "main-internet-gateway" {
