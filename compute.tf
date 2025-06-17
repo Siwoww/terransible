@@ -13,7 +13,8 @@ resource "aws_instance" "server" {
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.main-sg.id]
   subnet_id = aws_subnet.public_subnet[0].id
-
+  key_name = aws_key_pair.public_key.key_name
+  
   root_block_device {
     volume_size = var.main_vol_size
   }

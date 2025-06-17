@@ -14,6 +14,6 @@ resource "aws_key_pair" "public_key" {
 
 resource "local_sensitive_file" "private_key" {
   content = tls_private_key.generated.private_key_pem
-  filename = "../../.ssh-keys/terraform-${aws_instance.server[0].id}.pem"
+  filename = "/.ssh-keys/terraform-${aws_instance.server[0].id}.pem"
   file_permission = "0400"
 }
