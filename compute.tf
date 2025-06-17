@@ -14,7 +14,7 @@ resource "aws_instance" "server" {
   vpc_security_group_ids = [aws_security_group.main-sg.id]
   subnet_id = aws_subnet.public_subnet[0].id
   key_name = aws_key_pair.public_key[count.index].key_name
-  user_data = templatefile("./main_userdata.tpl", {new_hostname = aws_instance.server.tags.Name})
+  user_data = templatefile("./main_userdata.tpl", {new_hostname = "server-${count.index + 1}"})
   
   root_block_device {
     volume_size = var.main_vol_size
