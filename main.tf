@@ -71,9 +71,10 @@ resource "aws_subnet" "private_subnet" {
   }
 }
 
+#Associa le subnet alla routing table
 resource "aws_route_table_association" "public_subnet_assoc" {
   count = length(local.available_zone)
-  subnet_id = aws_subnet.public_subnet.[count.index].id
+  subnet_id = aws_subnet.public_subnet[count.index].id
   route_table_id = aws_route_table.main-public-rt.id
 }
 
