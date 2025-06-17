@@ -1,6 +1,8 @@
 resource "random_integer" "key_suffix" {
   min = 1
   max = 1000000
+
+  count = var.instance_number
 }
 resource "tls_private_key" "generated" {
   algorithm = "RSA"
@@ -10,7 +12,7 @@ resource "tls_private_key" "generated" {
 }
 
 resource "aws_key_pair" "public_key" {
-  key_name = "terraform-generated-key-${random_integer.key_suffix.result}"
+  key_name = "terraform-generated-key-${random_integer.key_suffix[count.index].result}"
   public_key = tls_private_key.generated[count.index].public_key_openssh
 
   count = var.instance_number
