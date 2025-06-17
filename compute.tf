@@ -28,5 +28,10 @@ resource "aws_instance" "server" {
     command = "echo ${self.public_ip} >> ${var.ip_file}"
   }
 
+  provisioner "local-exec" {
+    when = destroy
+    command = "sed -i '/^[0-9]/d' ${var.ip_file}"
+  }
+
   count = var.instance_number
 }
