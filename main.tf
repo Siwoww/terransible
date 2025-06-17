@@ -93,7 +93,7 @@ resource "aws_vpc_security_group_ingress_rule" "ingress_all" {
   cidr_ipv4 = "0.0.0.0/0"
 }
 
-resource "aws_vpc_security_group_ingress_rule" "egress_all" {
+resource "aws_vpc_security_group_egress_rule" "egress_all" {
   security_group_id = aws_security_group.main-sg.id
   ip_protocol = "-1"
   cidr_ipv4 = "0.0.0.0/0"
