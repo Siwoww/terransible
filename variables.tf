@@ -14,3 +14,7 @@ variable "private_subnet_cidr" {
 locals {
   available_zone = data.aws_availability_zones.available.names
 }
+
+variable "instance_type" {
+  default = "t2.micro"
+}

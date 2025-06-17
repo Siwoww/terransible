@@ -90,6 +90,8 @@ resource "aws_security_group" "main-sg" {
 resource "aws_vpc_security_group_ingress_rule" "ingress_all" {
   security_group_id = aws_security_group.main-sg.id
   ip_protocol = "-1"
+  from_port = 0
+  to_port = 655
   cidr_ipv4 = "0.0.0.0/0"
 }
 
