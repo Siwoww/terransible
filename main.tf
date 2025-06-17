@@ -78,6 +78,27 @@ resource "aws_route_table_association" "public_subnet_assoc" {
   route_table_id = aws_route_table.main-public-rt.id
 }
 
+resource "aws_security_group" "main-sg" {
+  name = "public-sg"
+  description = "Security group for public instances"
+
+  tags = {
+    Name = "public-sg"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "ingress_all" {
+  security_group_id = aws_security_group.main-sg.id
+  ip_protocol = "-1"
+  cidr_ipv4 = "0.0.0.0/0"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "egress_all" {
+  security_group_id = aws_security_group.main-sg.id
+  ip_protocol = "-1"
+  cidr_ipv4 = "0.0.0.0/0"
+}
+
 resource "random_id" "random" {
   byte_length = 2
 }
