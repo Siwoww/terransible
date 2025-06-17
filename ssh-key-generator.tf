@@ -22,4 +22,6 @@ resource "local_sensitive_file" "private_key" {
   content = tls_private_key.generated[count.index].private_key_pem
   filename = "/.ssh-keys/terraform-${aws_instance.server[count.index].id}.pem"
   file_permission = "0400"
+
+  count = var.instance_number
 }
