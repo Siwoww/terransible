@@ -22,6 +22,7 @@ resource "aws_instance" "server" {
 
   tags = {
     Name = "server-${count.index + 1}"
+    ip_file = var.ip_file
   }
 
   provisioner "local-exec" {
@@ -30,7 +31,7 @@ resource "aws_instance" "server" {
 
   provisioner "local-exec" {
     when = destroy
-    command = "sed -i '/^[0-9]/d' ${var.ip_file}"
+    command = "sed -i '/^[0-9]/d' ${self.tags.ip_file}"
   }
 
   count = var.instance_number
