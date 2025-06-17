@@ -47,7 +47,7 @@ resource "aws_default_route_table" "main_private_rt" {
 resource "aws_subnet" "public_subnet" {
   vpc_id = aws_vpc.main-vpc.id
   cidr_block = var.public_subnet_cidr
-  map_customer_owned_ip_on_launch = true # associa IP pubblico alle istanze che ne fanno parte
+  map_public_ip_on_launch = true # associa IP pubblico alle istanze che ne fanno parte
   availability_zone = data.aws_availability_zones.available.names[0]
   tags = {
     Name = "public-subnet"
