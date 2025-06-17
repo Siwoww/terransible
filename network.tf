@@ -80,6 +80,7 @@ resource "aws_route_table_association" "public_subnet_assoc" {
 
 resource "aws_security_group" "main-sg" {
   name = "public-sg"
+  vpc_id = aws_vpc.main-vpc.id
   description = "Security group for public instances"
 
   tags = {
