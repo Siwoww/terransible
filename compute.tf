@@ -9,6 +9,18 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "server" {
-  ami = data.aws_ami.ubuntu.image_id
+  ami = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
+  vpc_security_group_ids = [aws_security_group.main-sg.id]
+  subnet_id = aws_subnet.public_subnet[0].id
+
+  root_block_device {
+    volume_size = var.main_vol_size
+  }
+
+  tags = {
+    Name = "server-${count.index + 1}"
+  }
+
+  count = 1
 }
