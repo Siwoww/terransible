@@ -50,7 +50,7 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true # associa IP pubblico alle istanze che ne fanno parte
   availability_zone = local.available_zone[count.index]
 
-  count = length(var.public_subnet_cidr)
+  count = length(local.available_zone)
 
   tags = {
     Name = "public-subnet-${count.index + 1}"
@@ -64,7 +64,7 @@ resource "aws_subnet" "private_subnet" {
   map_public_ip_on_launch = true # associa IP pubblico alle istanze che ne fanno parte
   availability_zone = local.available_zone[count.index]
 
-  count = length(var.private_subnet_cidr)
+  count = length(local.available_zone)
 
   tags = {
     Name = "private-subnet-${count.index + 1}"
