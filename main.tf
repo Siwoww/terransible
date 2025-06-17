@@ -1,3 +1,4 @@
+#VPC(Virtual Private Cloud) - la rete isolata che comprenderà tutta l'infrastruttura di rete definita dal cidr e sarà suddivisa in subnet
 resource "aws_vpc" "main-vpc" {
   cidr_block = var.vpc_cidr
   enable_dns_hostnames = true
@@ -14,6 +15,7 @@ resource "aws_vpc" "main-vpc" {
   } 
 }
 
+#Internet gw  - funge da gateway con l'esterno della VPC correlata
 resource "aws_internet_gateway" "main-internet-gateway" {
   vpc_id = aws_vpc.main-vpc.id
 
@@ -22,6 +24,7 @@ resource "aws_internet_gateway" "main-internet-gateway" {
   }
 }
 
+#Routing table per l'instradamento del traffico di rete della VPC
 resource "aws_route_table" "main-public-rt" {
   vpc_id = aws_vpc.main-vpc.id
   tags = {
@@ -29,12 +32,14 @@ resource "aws_route_table" "main-public-rt" {
   }
 }
 
+#Singola regola di routing associata alla routing table - questa nello specifico crea la regola di instradamento verso il gateway permettendo connessioni internet
 resource "aws_route" "default-route" {
   route_table_id = aws_route_table.main-public-rt.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id = aws_internet_gateway.main-internet-gateway.id
 }
 
+#Routing table di default che viene assegnata automaticamente alle subnet senza associazioni
 resource "aws_default_route_table" "main_private_rt" {
   default_route_table_id = aws_vpc.main-vpc.default_route_table_id
 }
