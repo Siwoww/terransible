@@ -28,3 +28,8 @@ variable "instance_number" {
   type = number
   default = 1
 }
+
+variable "ip_file" {
+  type = string
+  default = "/.ips/aws_hosts"
+}

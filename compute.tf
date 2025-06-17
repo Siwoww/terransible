@@ -24,5 +24,9 @@ resource "aws_instance" "server" {
     Name = "server-${count.index + 1}"
   }
 
+  provisioner "local-exec" {
+    command = "echo ${self.public_ip} >> ${var.ip_file}"
+  }
+
   count = var.instance_number
 }
