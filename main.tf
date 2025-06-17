@@ -48,7 +48,7 @@ resource "aws_subnet" "public_subnet" {
   vpc_id = aws_vpc.main-vpc.id
   cidr_block = var.public_subnet_cidr[count.index]
   map_public_ip_on_launch = true # associa IP pubblico alle istanze che ne fanno parte
-  availability_zone = data.aws_availability_zones.available.names[count.index]
+  availability_zone = local.available_zonecount.index[count.index]
 
   count = length(var.public_subnet_cidr)
 
@@ -61,7 +61,7 @@ resource "aws_subnet" "private_subnet" {
   vpc_id = aws_vpc.main-vpc.id
   cidr_block = var.private_subnet_cidr[count.index]
   map_public_ip_on_launch = true # associa IP pubblico alle istanze che ne fanno parte
-  availability_zone = data.aws_availability_zones.available.names[count.index]
+  availability_zone = local.available_zonecount.index[count.index]
 
   count = length(var.private_subnet_cidr)
 

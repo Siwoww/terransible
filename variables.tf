@@ -9,3 +9,7 @@ variable "public_subnet_cidr" {
 variable "private_subnet_cidr" {
   type = list(string)
 }
+
+locals {
+  available_zone = data.aws_availability_zones.available.names
+}
