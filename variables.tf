@@ -23,3 +23,8 @@ variable "main_vol_size" {
   type = number
   default = 8
 }
+
+variable "instance_number" {
+  type = number
+  default = 2
+}

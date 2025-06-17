@@ -23,5 +23,5 @@ resource "aws_instance" "server" {
     Name = "server-${count.index + 1}"
   }
 
-  count = 1
+  count = var.instance_number
 }
