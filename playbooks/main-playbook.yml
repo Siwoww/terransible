@@ -1,25 +1,61 @@
 ---
-- name: Install Grafana #nome playbook
+- name: Bootstrap Main node #nome playbook
   hosts: main                  #target del playbook
   become: yes                   #esegue sudo per lanciare i comandi
 
   tasks:
+    #GRAFANA
     - name: Add apt key #--
       ansible.builtin.apt_key:
         url: https://packages.grafana.com/gpg.key
-        state: present 
+        state: present
+
     - name: Add Grafana to sources.list #--
       ansible.builtin.apt_repository:
         repo: deb https://packages.grafana.com/oss/deb stable main
         filename: grafana #inserisce in /etc/apt/sources.list.d/ grafana.list
         state: present
+
     - name: Update repo and Install Grafana #--
       ansible.builtin.apt:
         update_cache: true
         name: grafana
         state: present
+
     - name: Ensure Grafa is started and enabled #--
       ansible.builtin.systemd_service:
         enabled: true
         name: grafana-server
         state: started
+
+    #PROMETHEUS
+    - name: Download Prometheus
+      ansible.builtin.get_url:
+        url: https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz
+        dest: /home/ubuntu
+        state: present
+
+    - name: Extract Package
+      ansible.builtin.unarchive:
+        source: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
+        dest: /home/ubuntu/
+        remote_source: true
+
+#    - name: Enter directory
+#      ansible.builtin.command: cd /tmp/rometheus-2.30.3.linux-amd64/
+
+#    - name: Create Prometheus group
+#      ansible.builtin.command: groupadd --system prometheus
+
+
+#    - name: Add group
+#    - name: Add user
+#    - name: read id
+#    - name: Create Directories
+#    - name: Copy to /usr/local/bin/
+#    - name: List /usr/local/bin
+#    - name: Copy to console libaries and /etc/prometheus
+#    - name: Create service file
+#    - name: Create configuration file
+#    - name: Modify permissions
+#    - name: Ensure Prometheus is started and enabled
