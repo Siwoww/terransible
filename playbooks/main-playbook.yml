@@ -34,17 +34,11 @@
         url: https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz
         dest: /home/ubuntu/
 
-    - name: user
-      ansible.builtin.command: /bin/whoami
-
-    - name: List test
-      ansible.builtin.command: /bin/ls /home/ubuntu
-
     - name: Extract Package
       ansible.builtin.unarchive:
         src: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
         dest: /home/ubuntu/
-        remote_source: yes
+        remote_src: yes
 
 #    - name: Enter directory
 #      ansible.builtin.command: cd /tmp/rometheus-2.30.3.linux-amd64/
