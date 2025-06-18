@@ -36,5 +36,5 @@ variable "inventory_path" {
 
 variable "private_key_path" {
   type = string
-  default = "/ansible-share/ssh_key/terraform"
+  default = "/ansible-share/ssh_keys/terraform"
 }
