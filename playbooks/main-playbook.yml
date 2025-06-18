@@ -36,7 +36,7 @@
 
     - name: Extract Package
       ansible.builtin.unarchive:
-        src: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
+        source: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
         dest: /home/ubuntu/
         remote_source: yes
 
