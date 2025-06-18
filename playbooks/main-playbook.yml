@@ -38,7 +38,7 @@
       ansible.builtin.unarchive:
         src: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
         dest: /home/ubuntu/
-        remote_source: false
+        remote_source: yes
 
 #    - name: Enter directory
 #      ansible.builtin.command: cd /tmp/rometheus-2.30.3.linux-amd64/
