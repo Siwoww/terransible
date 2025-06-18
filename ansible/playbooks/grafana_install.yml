@@ -1,6 +1,6 @@
 ---
 - name: Install Grafana #nome playbook
-  hosts: hosts                  #target del playbook
+  hosts: main                  #target del playbook
   become: yes                   #esegue sudo per lanciare i comandi
 
   tasks:
