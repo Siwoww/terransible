@@ -20,7 +20,7 @@ resource "aws_key_pair" "public_key" {
 
 resource "local_sensitive_file" "private_key" {
   content = tls_private_key.generated[count.index].private_key_pem
-  filename = "/ansible-share/ssh-keys/terraform-${aws_instance.server[count.index].id}.pem"
+  filename = "/ansible-share/ssh_keys/terraform-${aws_instance.server[count.index].id}.pem"
   file_permission = "0400"
 
   count = var.instance_number
