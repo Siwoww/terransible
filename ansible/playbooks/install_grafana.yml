@@ -16,7 +16,7 @@
         filename: grafana #inserisce in /etc/apt/sources.list.d/ grafana.list
         state: present
     - name: Update repo and Install Grafana
-      ansible.builtin.apt:
+      apt:
         update_cache: true
         install: grafana
         state: present
