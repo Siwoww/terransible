@@ -22,7 +22,7 @@
         name: grafana
         state: present
 
-    - name: Ensure Grafa is started and enabled #--
+    - name: Ensure Grafana is started and enabled #--
       ansible.builtin.systemd_service:
         enabled: true
         name: grafana-server
@@ -58,11 +58,19 @@
         shell: /sbin/nologin
         system: true
         state: present
-
+    - 
     - name: Create directory
       ansible.builtin.file:
-        
+        path: "{ item }"
         state: directory
+        mode: '0775'
+        owner: prometheus
+        group: prometheus
+      loop:
+        - /etc/prometheus/rules
+        - /etc/prometheus/rules.d
+        - /etc/prometheus/files_sd
+        - /var/lib/prometheus
 
 #    - name: Enter directory
 #      ansible.builtin.command: cd /tmp/rometheus-2.30.3.linux-amd64/
