@@ -4,11 +4,11 @@
   become: yes                   #esegue sudo per lanciare i comandi
 
   tasks:
-    - name: Ensure Grafa is started and enabled #--
-      ansible.builtin.systemd_service:
-        enabled: false
-        name: grafana-server
-        state: stopped
+#    - name: Ensure Grafa is started and enabled #--
+#      ansible.builtin.systemd_service:
+#        enabled: false
+#        name: grafana-server
+#        state: stopped
 
     - name: Add apt key #--
       ansible.builtin.apt_key:
