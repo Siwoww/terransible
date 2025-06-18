@@ -14,7 +14,7 @@ resource "aws_instance" "server" {
   vpc_security_group_ids = [aws_security_group.main-sg.id]
   subnet_id = aws_subnet.public_subnet[0].id
   key_name = aws_key_pair.public_key[count.index].key_name
-  user_data = templatefile("./main-userdata.tpl", {new_hostname = "server-${count.index + 1}"})
+  #user_data = templatefile("./main-userdata.tpl", {new_hostname = "server-${count.index + 1}"})
   
   root_block_device {
     volume_size = var.main_vol_size
@@ -22,17 +22,25 @@ resource "aws_instance" "server" {
 
   tags = {
     Name = "server-${count.index + 1}"
-    ip_file = var.ip_file
+    inventory_path = var.inventory_path
+    server_private_key = local_sensitive_file.private_key[count.index].filename
   }
 
   provisioner "local-exec" {
-    command = "echo ${self.public_ip} >> ${var.ip_file}"
+    command = "echo '${self.public_ip} ansible_ssh_private_key_file=${self.tags.server_private_key}' >> ${var.inventory_path}"
   }
 
   provisioner "local-exec" {
     when = destroy
-    command = "sed -i '/^[0-9]/d' ${self.tags.ip_file}"
+    command = "sed -i '/^[0-9]/d' ${self.tags.inventory_path}"
   }
 
   count = var.instance_number
 }
+
+/*resource "null_resource" "grafana_install" {
+  depends_on = [ aws_instance.server ]
+  provisioner "local-exec" {
+    command = "ansible-playbook -i ${var.inventory_path} "
+  }
+}*/

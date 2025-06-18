@@ -33,3 +33,8 @@ variable "ip_file" {
   type = string
   default = "/.ips/aws_hosts"
 }
+
+variable "inventory_path" {
+  type = string
+  default = "/ansible-share/aws_hosts"
+}
