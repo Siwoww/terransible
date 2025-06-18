@@ -45,7 +45,24 @@
         path: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
         state: absent
 
-    
+    - name: Create Prometheus group
+      ansible.builtin.group:
+        name: prometheus
+        system: yes
+        state: present
+
+    - name: Create Prometheus user
+      ansible.builtin.user:
+        name: prometheus
+        group: prometheus
+        shell: /sbin/nologin
+        system: true
+        state: present
+
+    - name: Create directory
+      ansible.builtin.file:
+        
+        state: directory
 
 #    - name: Enter directory
 #      ansible.builtin.command: cd /tmp/rometheus-2.30.3.linux-amd64/
