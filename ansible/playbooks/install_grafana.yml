@@ -1,0 +1,8 @@
+tasks:
+  -name: Add apt key
+    ansible.builtin.apt_key:
+      url: https://packages.grafana.com/gpg.key
+      state: present
+        #-name: Add Grafana to sources.list
+        #-name: Update repo and Install Grafana
+        #-name: Ensure Grafa is started and enabled
