@@ -7,12 +7,17 @@
     - name: Add apt key
       ansible.builtin.apt_key:
         url: https://packages.grafana.com/gpg.key
-        state: present
-        #-name: Add Grafana to sources.list
-        #-name: Update repo and Install Grafana
+        state: present 
+        #
         #-name: Ensure Grafa is started and enabled
-    - name:
+    - name: Add Grafana to sources.list
       ansible.builtin.apt_repository:
         repo: deb https://packages.grafana.com/oss/deb stable main
         filename: grafana #inserisce in /etc/apt/sources.list.d/ grafana.list
         state: present
+    - name: Update repo and Install Grafana
+      ansible.builtin.apt:
+        update_cache: true
+        install: grafana
+        state: present
+
