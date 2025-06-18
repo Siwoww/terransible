@@ -27,7 +27,7 @@ resource "aws_instance" "server" {
   }
 
   provisioner "local-exec" {
-    command = "echo '${self.public_ip} ansible_ssh_private_key_file=${var.private_key_path}-${self.id}.pem' >> ${var.inventory_path}"
+    command = "echo '${self.public_ip} ansible_ssh_private_key_file=${var.private_key_path}-${self.id}.pem ansible_user=ubuntu' >> ${var.inventory_path}"
   }
 
   provisioner "local-exec" {
