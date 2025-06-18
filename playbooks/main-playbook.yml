@@ -40,6 +40,9 @@
         dest: /home/ubuntu/
         remote_source: yes
 
+    - name: List test
+      ansible.builtin.command: /bin/ls /home/ubuntu
+
 #    - name: Enter directory
 #      ansible.builtin.command: cd /tmp/rometheus-2.30.3.linux-amd64/
 
