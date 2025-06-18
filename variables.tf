@@ -10,6 +10,9 @@ variable "private_subnet_cidr" {
   type = list(string)
 }
 */
+variable "region" {
+  default = "eu-central-1"
+}
 
 locals {
   available_zone = data.aws_availability_zones.available.names
