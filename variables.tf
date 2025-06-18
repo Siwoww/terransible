@@ -29,12 +29,12 @@ variable "instance_number" {
   default = 1
 }
 
-variable "ip_file" {
-  type = string
-  default = "/.ips/aws_hosts"
-}
-
 variable "inventory_path" {
   type = string
   default = "/ansible-share/aws_hosts"
+}
+
+variable "private_key_path_path" {
+  type = string
+  default = "/ansible-share/ssh_key/terraform"
 }
