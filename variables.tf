@@ -26,7 +26,7 @@ variable "main_vol_size" {
 
 variable "instance_number" {
   type = number
-  default = 1
+  default = 2
 }
 
 variable "inventory_path" {
