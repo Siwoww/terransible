@@ -34,7 +34,7 @@ variable "inventory_path" {
   default = "/ansible-share/aws_hosts"
 }
 
-variable "private_key_path_path" {
+variable "private_key_path" {
   type = string
   default = "/ansible-share/ssh_key/terraform"
 }
