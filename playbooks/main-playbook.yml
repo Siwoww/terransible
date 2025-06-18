@@ -89,7 +89,7 @@
 
     - name: Copy prometheus service file to /etc/systemd/system/
       ansible.builtin.copy:
-        dest: /etc/systemd/system/
+        dest: /etc/systemd/system/prometheus.service
         remote_src: false
         src: /ansible-share/config_files/prometheus.service
 
@@ -110,9 +110,10 @@
       loop:
         - /etc/prometheus
         - /var/lib/prometheus
-
-# systemctl start prometheus
-# systemctl enable prometheus
+        
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: yes
 
     - name: Ensure prometheus is started and enabled #--
       ansible.builtin.systemd_service:
