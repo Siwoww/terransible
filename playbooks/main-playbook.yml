@@ -81,13 +81,49 @@
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/prometheus
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/promtool
 
-#    - name: Enter directory
-#      ansible.builtin.command: cd /tmp/rometheus-2.30.3.linux-amd64/
+# cp -r consoles/ console_libraries/ /etc/prometheus/
+    - name: Copy to /etc/prometheus
+      ansible.builtin.command: cp -r {{ item }} /etc/prometheus/
+      loop:
+        - /home/ubuntu/prometheus-2.30.3.linux-amd64/consoles
+        - /home/ubuntu/prometheus-2.30.3.linux-amd64/console_libraries
 
-#    - name: Copy to /usr/local/bin/
-#    - name: List /usr/local/bin
-#    - name: Copy to console libaries and /etc/prometheus
-#    - name: Create service file
-#    - name: Create configuration file
-#    - name: Modify permissions
-#    - name: Ensure Prometheus is started and enabled
+# vim /etc/systemd/system/prometheus.service
+
+# [Unit]
+# Description=Prometheus systemd service unit
+# Wants=network-online.target
+# After=network-online.target
+
+# [Service]
+# Type=simple
+# User=prometheus
+# Group=prometheus
+# ExecReload=/bin/kill -HUP $MAINPID
+# ExecStart=/usr/local/bin/prometheus \
+# --config.file=/etc/prometheus/prometheus.yml \
+# --storage.tsdb.path=/var/lib/prometheus \
+# --web.console.templates=/etc/prometheus/consoles \
+# --web.console.libraries=/etc/prometheus/console_libraries \
+# --web.listen-address=0.0.0.0:9090
+
+# SyslogIdentifier=prometheus
+# Restart=always
+
+# [Install]
+# WantedBy=multi-user.target
+
+# vim /etc/prometheus/prometheus.yml
+
+# global:
+#   scrape_interval:     15s # By default, scrape targets every 15 seconds.
+# scrape_configs:
+#   - job_name: 'node'
+#     static_configs:
+#       - targets: ['localhost:9100']
+
+# chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
+# chmod -R 775 /etc/prometheus/ /var/lib/prometheus/
+
+# systemctl start prometheus
+# systemctl enable prometheus
