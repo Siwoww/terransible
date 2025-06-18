@@ -72,17 +72,18 @@
         - /etc/prometheus/files_sd
         - /var/lib/prometheus
 
+    - name: Copy to /usr/local/bin
+      ansible.builtin.copy:
+        dest: /usr/local/bin/
+        remote_src: true
+        src: "{{ item }}"
+      loop:
+        - /home/ubuntu/prometheus-2.30.3.linux-amd64/prometheus
+        - /home/ubuntu/prometheus-2.30.3.linux-amd64/promtool
+
 #    - name: Enter directory
 #      ansible.builtin.command: cd /tmp/rometheus-2.30.3.linux-amd64/
 
-#    - name: Create Prometheus group
-#      ansible.builtin.command: groupadd --system prometheus
-
-
-#    - name: Add group
-#    - name: Add user
-#    - name: read id
-#    - name: Create Directories
 #    - name: Copy to /usr/local/bin/
 #    - name: List /usr/local/bin
 #    - name: Copy to console libaries and /etc/prometheus

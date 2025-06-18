@@ -1,14 +1,14 @@
-wget https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz
-tar xvf prom*
-cd prometheus
+#wget https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz
+#tar xvf prom*
+#cd prometheus
 
-groupadd --system prometheus
-grep prometheus /etc/group
+#groupadd --system prometheus
+#grep prometheus /etc/group
 
-useradd -s /sbin/nologin -r -g prometheus prometheus
-id prometheus
+#useradd -s /sbin/nologin -r -g prometheus prometheus
+#id prometheus
 
-mkdir -p /etc/prometheus/{rules,rules.d,files_sd}  /var/lib/prometheus
+#mkdir -p /etc/prometheus/{rules,rules.d,files_sd}  /var/lib/prometheus
 
 cp prometheus promtool /usr/local/bin/
 ls /usr/local/bin/
