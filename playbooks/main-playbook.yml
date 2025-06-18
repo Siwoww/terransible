@@ -99,39 +99,17 @@
         remote_src: false
         src: /ansible-share/config_files/prometheus.yml
 
-# vim /etc/systemd/system/prometheus.service
-
-# [Unit]
-# Description=Prometheus systemd service unit
-# Wants=network-online.target
-# After=network-online.target
-
-# [Service]
-# Type=simple
-# User=prometheus
-# Group=prometheus
-# ExecReload=/bin/kill -HUP $MAINPID
-# ExecStart=/usr/local/bin/prometheus \
-# --config.file=/etc/prometheus/prometheus.yml \
-# --storage.tsdb.path=/var/lib/prometheus \
-# --web.console.templates=/etc/prometheus/consoles \
-# --web.console.libraries=/etc/prometheus/console_libraries \
-# --web.listen-address=0.0.0.0:9090
-
-# SyslogIdentifier=prometheus
-# Restart=always
-
-# [Install]
-# WantedBy=multi-user.target
-
-# vim /etc/prometheus/prometheus.yml
-
-# global:
-#   scrape_interval:     15s # By default, scrape targets every 15 seconds.
-# scrape_configs:
-#   - job_name: 'node'
-#     static_configs:
-#       - targets: ['localhost:9100']
+    - name: Modify Prometheus directories ownership
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        recurse: true
+        mode: '0775'
+        owner: prometheus
+        group: prometheus
+      loop:
+        - /etc/prometheus
+        - /var/lib/prometheus
 
 # chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
 # chmod -R 775 /etc/prometheus/ /var/lib/prometheus/
