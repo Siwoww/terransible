@@ -32,12 +32,12 @@
     - name: Download Prometheus
       ansible.builtin.get_url:
         url: https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz
-        dest: /home/ubuntu
+        dest: /home/ubuntu/
 
     - name: Extract Package
       ansible.builtin.unarchive:
         source: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
-        dest: /home/ubuntu/
+        dest: /home/ubuntu/prometheus-2.30.3.linux-amd64
         remote_source: true
 
 #    - name: Enter directory
