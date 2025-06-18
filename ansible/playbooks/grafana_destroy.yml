@@ -27,3 +27,23 @@
         name: grafana
         state: absent
 
+    - name: Remove Grafana data directory
+      ansible.builtin.file:
+        path: /var/lib/grafana
+        state: absent
+
+    - name: Remove Grafana config directory
+      ansible.builtin.file:
+        path: /etc/grafana
+        state: absent
+
+    - name: Remove Grafana log directory
+      ansible.builtin.file:
+        path: /var/log/grafana
+        state: absent
+
+    - name: Remove Grafana service file
+      ansible.builtin.file:
+        path: /lib/systemd/system/grafana-server.service
+        state: absent
+
