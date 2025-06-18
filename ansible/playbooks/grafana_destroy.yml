@@ -1,15 +1,9 @@
 ---
-- name: Install Grafana #nome playbook
+- name: Remove Grafana         #nome playbook
   hosts: hosts                  #target del playbook
   become: yes                   #esegue sudo per lanciare i comandi
 
   tasks:
-#    - name: Ensure Grafa is started and enabled #--
-#      ansible.builtin.systemd_service:
-#        enabled: false
-#        name: grafana-server
-#        state: stopped
-
     - name: Remove apt key #--
       ansible.builtin.apt_key:
         url: https://packages.grafana.com/gpg.key
@@ -21,6 +15,12 @@
         repo: deb https://packages.grafana.com/oss/deb stable main
         filename: grafana #inserisce in /etc/apt/sources.list.d/ grafana.list
         state: absent
+
+    - name: Ensure Grafana is stopped and disabled #--
+      ansible.builtin.systemd_service:
+        enabled: false
+        name: grafana-server
+        state: stopped
 
     - name: Uninstall Grafana #--
       ansible.builtin.apt:
