@@ -23,11 +23,11 @@ resource "aws_instance" "server" {
   tags = {
     Name = "server-${count.index + 1}"
     inventory_path = var.inventory_path
-    server_private_key = local_sensitive_file.private_key[count.index].filename
+    #server_private_key = local_sensitive_file.private_key.filename
   }
 
   provisioner "local-exec" {
-    command = "echo '${self.public_ip} ansible_ssh_private_key_file=${self.tags.server_private_key}' >> ${var.inventory_path}"
+    command = "echo '${self.public_ip} ansible_ssh_private_key_file=${local_sensitive_file.private_key[count.index].filename}' >> ${var.inventory_path}"
   }
 
   provisioner "local-exec" {
