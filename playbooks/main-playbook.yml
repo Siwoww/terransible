@@ -40,6 +40,13 @@
         dest: /home/ubuntu/
         remote_src: yes
 
+    - name: Remove archive
+      ansible.builtin.file:
+        path: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
+        state: absent
+
+    
+
 #    - name: Enter directory
 #      ansible.builtin.command: cd /tmp/rometheus-2.30.3.linux-amd64/
 
