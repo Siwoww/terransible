@@ -41,9 +41,9 @@ resource "aws_instance" "server" {
 
 
 #Grafana installation via Ansible
-/*resource "null_resource" "grafana_install" {
+resource "null_resource" "grafana_install" {
   depends_on = [ aws_instance.server ]
   provisioner "local-exec" {
-    command = "ansible-playbook -i ${var.inventory_path} playbooks/grafana_install.yml"
+    command = "ansible-playbook -i ${var.inventory_path} playbooks/main-playbook.yml"
   }
-}*/
+}
