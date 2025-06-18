@@ -61,7 +61,7 @@
     - 
     - name: Create Prometheus directories
       ansible.builtin.file:
-        path: "{ item }"
+        path: "{{ item }}"
         state: directory
         mode: '0775'
         owner: prometheus
