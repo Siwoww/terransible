@@ -5,7 +5,7 @@
 
   tasks:
     #GRAFANA
-    - name: Add apt key #--
+    - name: Add Grafana apt key #--
       ansible.builtin.apt_key:
         url: https://packages.grafana.com/gpg.key
         state: present
@@ -16,7 +16,7 @@
         filename: grafana #inserisce in /etc/apt/sources.list.d/ grafana.list
         state: present
 
-    - name: Update repo and Install Grafana #--
+    - name: Update Grafana repo and Install Grafana #--
       ansible.builtin.apt:
         update_cache: true
         name: grafana
@@ -34,13 +34,13 @@
         url: https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz
         dest: /home/ubuntu/
 
-    - name: Extract Package
+    - name: Extract Prometheus Archive
       ansible.builtin.unarchive:
         src: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
         dest: /home/ubuntu/
         remote_src: yes
 
-    - name: Remove archive
+    - name: Remove Prometheus archive
       ansible.builtin.file:
         path: /home/ubuntu/prometheus-2.30.3.linux-amd64.tar.gz
         state: absent
@@ -59,7 +59,7 @@
         system: true
         state: present
     - 
-    - name: Create directory
+    - name: Create Prometheus directories
       ansible.builtin.file:
         path: "{ item }"
         state: directory
