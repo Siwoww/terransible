@@ -38,9 +38,12 @@ resource "aws_instance" "server" {
   count = var.instance_number
 }
 
-resource "null_resource" "grafana_install" {
+
+
+#Grafana installation via Ansible
+/*resource "null_resource" "grafana_install" {
   depends_on = [ aws_instance.server ]
   provisioner "local-exec" {
     command = "ansible-playbook -i ${var.inventory_path} playbooks/grafana_install.yml"
   }
-}
+}*/
