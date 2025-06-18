@@ -10,10 +10,10 @@
 
 #mkdir -p /etc/prometheus/{rules,rules.d,files_sd}  /var/lib/prometheus
 
-cp prometheus promtool /usr/local/bin/
-ls /usr/local/bin/
+#cp prometheus promtool /usr/local/bin/
+#ls /usr/local/bin/
 
-cp -r consoles/ console_libraries/ /etc/prometheus/
+#cp -r consoles/ console_libraries/ /etc/prometheus/
 
 vim /etc/systemd/system/prometheus.service
 

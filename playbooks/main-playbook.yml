@@ -81,12 +81,23 @@
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/prometheus
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/promtool
 
-# cp -r consoles/ console_libraries/ /etc/prometheus/
     - name: Copy to /etc/prometheus
       ansible.builtin.command: cp -r {{ item }} /etc/prometheus/
       loop:
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/consoles
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/console_libraries
+
+    - name: Copy prometheus service file to /etc/systemd/system/
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/
+        remote_src: false
+        src: /ansible-share/config_files/prometheus.service
+
+    - name: Copy Prometheus configuration file to /etc/prometheus/
+      ansible.builtin.copy:
+        dest: /etc/prometheus/
+        remote_src: false
+        src: /ansible-share/config_files/prometheus.yml
 
 # vim /etc/systemd/system/prometheus.service
 
