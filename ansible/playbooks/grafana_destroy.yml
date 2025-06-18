@@ -13,6 +13,7 @@
     - name: Add apt key #--
       ansible.builtin.apt_key:
         url: https://packages.grafana.com/gpg.key
+        id: B53AE77BADB630A683046005963FA27710458545
         state: absent
 
     - name: Add Grafana to sources.list #--
