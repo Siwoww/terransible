@@ -101,7 +101,7 @@
 
     - name: Copy Prometheus service file to /etc/systemd/system/
       ansible.builtin.copy:
-        src: prometheus.service
+        src: prometheus.service.j2
         dest: /etc/systemd/system/prometheus.service
         remote_src: false
         #src: /ansible-share/config_files/prometheus.service
