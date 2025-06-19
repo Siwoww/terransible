@@ -2,3 +2,8 @@
 .git
 .terraform.lock.hcl
 temp.txt
+*.pem
+*.tfstate
+*.tfstate.*
+crash.log
+*.retry
