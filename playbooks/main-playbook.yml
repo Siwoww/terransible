@@ -48,7 +48,7 @@
     - name: Create Prometheus group
       ansible.builtin.group:
         name: prometheus
-        system: yes
+        #system: yes
         state: present
 
     - name: Create Prometheus user
@@ -56,7 +56,7 @@
         name: prometheus
         group: prometheus
         shell: /sbin/nologin
-        system: true
+        #system: true
         state: present
     - 
     - name: Create Prometheus directories
@@ -64,9 +64,11 @@
         path: "{{ item }}"
         state: directory
         mode: '0775'
+        recurse: yes
         owner: prometheus
         group: prometheus
       loop:
+        - /etc/prometheus
         - /etc/prometheus/rules
         - /etc/prometheus/rules.d
         - /etc/prometheus/files_sd
@@ -77,27 +79,34 @@
         dest: /usr/local/bin/
         remote_src: true
         src: "{{ item }}"
+        owner: prometheus
+        group: prometheus
       loop:
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/prometheus
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/promtool
 
-    - name: Copy to /etc/prometheus
-      ansible.builtin.command: cp -r {{ item }} /etc/prometheus/
+    - name: Copy consoles to /etc/prometheus
+      ansible.builtin.copy:
+        scr: "{{ item }}"
+        dest: /etc/prometheus
+        remote_src: yes
       loop:
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/consoles
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/console_libraries
 
-    - name: Copy prometheus service file to /etc/systemd/system/
+    - name: Copy Prometheus service file to /etc/systemd/system/
       ansible.builtin.copy:
         dest: /etc/systemd/system/prometheus.service
         remote_src: false
-        src: /ansible-share/config_files/prometheus.service
+        #src: /ansible-share/config_files/prometheus.service
+        src: prometheus.service
 
     - name: Copy Prometheus configuration file to /etc/prometheus/
       ansible.builtin.copy:
         dest: /etc/prometheus/
         remote_src: false
-        src: /ansible-share/config_files/prometheus.yml
+        #src: /ansible-share/config_files/prometheus.yml
+        src: prometheus.yml
 
     - name: Modify Prometheus directories ownership
       ansible.builtin.file:
