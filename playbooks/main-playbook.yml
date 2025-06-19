@@ -155,3 +155,10 @@
         update_cache: true
         name: jenkins
         state: present
+
+    - name: Start and Enable Jenkins.service
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        enabled: true
+        name: jenkins.service
+        state: started
