@@ -92,7 +92,7 @@
 
     - name: Copy consoles to /etc/prometheus
       ansible.builtin.copy:
-        scr: "{{ item }}"
+        src: "{{ item }}"
         dest: /etc/prometheus
         remote_src: yes
       loop:
