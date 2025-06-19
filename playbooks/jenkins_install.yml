@@ -1,0 +1,39 @@
+---
+- name: Install Jenkins
+  hosts: localhost
+  become: yes
+
+  #JENKINS
+- name: Install Java
+  ansible.builtin.apt:
+    update_cache: true
+    name: "{{ item }}"
+    state: present
+  loop:
+    - fontconfig
+    - openjdk-21-jre
+
+- name: Download Jenkins GPG key
+  ansible.builtin.get_url:
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+    dest: /usr/share/keyrings/jenkins-keyring.asc
+    # state: present
+
+- name: Add Jenkins repo
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/
+    filename: jenkins
+    update_cache: true
+  
+- name: Refresh repo and Install Jenkins
+  ansible.builtin.apt:
+    update_cache: true
+    name: jenkins
+    state: present
+
+- name: Start and Enable jenkins.service
+  ansible.builtin.systemd_service:
+    #daemon_reload: true
+    enabled: true
+    name: jenkins.service
+    state: started
