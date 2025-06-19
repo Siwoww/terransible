@@ -138,6 +138,15 @@
   #       state: started
 
     #JENKINS
+    - name: Install Java
+      ansible.builtin.apt:
+        update_cache: true
+        name: "{{ item }}"
+        state: present
+      loop:
+        - fontconfig
+        - openjdk-21-jre
+
     - name: Download Jenkins GPG key
       ansible.builtin.get_url:
         url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
@@ -156,9 +165,9 @@
         name: jenkins
         state: present
 
-    - name: Start and Enable Jenkins.service
+    - name: Start and Enable jenkins.service
       ansible.builtin.systemd_service:
-        daemon_reload: true
+        #daemon_reload: true
         enabled: true
         name: jenkins.service
         state: started
