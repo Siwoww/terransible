@@ -142,7 +142,7 @@
       ansible.builtin.get_url:
         url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
         dest: /usr/share/keyrings/jenkins-keyring.asc
-        state: present
+        # state: present
 
     - name: Add Jenkins repo
       ansible.builtin.apt_repository:
