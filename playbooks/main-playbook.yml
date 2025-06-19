@@ -100,7 +100,7 @@
         - /home/ubuntu/prometheus-2.30.3.linux-amd64/console_libraries
 
     - name: Copy Prometheus service file to /etc/systemd/system/
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src: /GitRepos/terransible/config_files/prometheus.service.j2
         dest: /etc/systemd/system/prometheus.service
         remote_src: false
@@ -108,7 +108,7 @@
         
 
     - name: Copy Prometheus configuration file to /etc/prometheus/
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src: /GitRepos/terransible/config_files/prometheus.yml.j2
         dest: /etc/prometheus/prometheus.yml
         remote_src: false
