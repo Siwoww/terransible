@@ -149,7 +149,7 @@
         filename: jenkins
       
     - name: Refresh repo and Install Jenkins
-      anisible.builtin.apt:
+      ansible.builtin.apt:
         update_cache: true
         name: jenkins
         state: present
