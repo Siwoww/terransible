@@ -136,3 +136,19 @@
         enabled: true
         name: prometheus
         state: started
+
+    #JENKINS
+    - name: Download Jenkins GPG key
+      ansible.builtin.apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        state: present
+
+    - name: Add Jenkins repo
+      repo: deb https://pkg.jenkins.io/debian-stable binary
+      filename: jenkins
+      
+    - name: Refresh repo and Install Jenkins
+      anisible.builtin.apt:
+        update_cache: true
+        name: jenkins
+        state: present
