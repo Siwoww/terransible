@@ -3,6 +3,10 @@
   hosts: main                  #target del playbook
   become: yes                   #esegue sudo per lanciare i comandi
 
+  vars:
+    listen_address: 0.0.0.0
+    listen_port: 9090
+
   tasks:
     #GRAFANA
     - name: Add Grafana apt key #--
@@ -79,6 +83,7 @@
         dest: /usr/local/bin/
         remote_src: true
         src: "{{ item }}"
+        mode: '0755'
         owner: prometheus
         group: prometheus
       loop:
@@ -96,17 +101,19 @@
 
     - name: Copy Prometheus service file to /etc/systemd/system/
       ansible.builtin.copy:
+        src: prometheus.service
         dest: /etc/systemd/system/prometheus.service
         remote_src: false
         #src: /ansible-share/config_files/prometheus.service
-        src: prometheus.service
+        
 
     - name: Copy Prometheus configuration file to /etc/prometheus/
       ansible.builtin.copy:
-        dest: /etc/prometheus/
+        src: prometheus.yml.j2
+        dest: /etc/prometheus/prometheus.yml
         remote_src: false
         #src: /ansible-share/config_files/prometheus.yml
-        src: prometheus.yml
+        
 
     - name: Modify Prometheus directories ownership
       ansible.builtin.file:
