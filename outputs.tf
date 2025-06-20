@@ -34,6 +34,9 @@ output "instances_ids" {
   }
 }
 
+output "region" {
+  value = var.region
+}
 
 /*output "inventory_instances" {
   #value = {for instance in aws_aws_instance.server[*]: instance.tags.Name => "${instance.public_ip} ${instance}"}

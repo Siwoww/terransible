@@ -13,7 +13,6 @@ pipeline{
         //Terraform init
         stage('Init'){
             steps{
-                sh 'cat $BRANCH_NAME.tfvars'
                 sh 'terraform init -no-color'
             }
         }
@@ -52,9 +51,10 @@ pipeline{
         //Wait for the instance to be created and ready
         stage('EC2 Wait'){
             steps{
-                sh '''aws ec2 wait instance-status-ok \\
+                sh 'aws ec2 wait instance-status-ok --instance-ids $(terraform output -json instances_ids|jq -r \'.[]\') --region eu-central-1'
+                /*sh '''aws ec2 wait instance-status-ok \\
                 --instance-ids $(terraform show -json|jq -r \'.values\'.\'root_module\'.\'resources[] | select(.type == "aws_instance").values.id\') \\
-                --region eu-central-1'''
+                --region eu-central-1'''*/
             }
         }
 
