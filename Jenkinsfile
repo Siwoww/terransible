@@ -27,6 +27,10 @@ pipeline{
 
         //Apply validation
         stage('Validate Apply'){
+            when{
+                beforeInput true
+                branch "dev"
+            }
             steps{
                 input message: "Do you really want to Apply this plan?", ok: "Apply this plan", cancel: "No, don't Apply this plan"
             }
@@ -48,6 +52,10 @@ pipeline{
 
         //Playbook execution validation
         stage('Validate Ansible Playbook'){
+            when{
+                beforeInput true
+                branch "dev"
+            }
             steps{
                 input message: "Do you really want to execute the Ansible Playbook?", ok: "Execute Ansible", cancel: "No, don't execute the Playbook"
             }
@@ -62,6 +70,10 @@ pipeline{
 
         //Destroy validation
         stage('Validate Destroy'){
+            when{
+                beforeInput true
+                branch "dev"
+            }
             steps{
                 input message: "Do you really want to Destroy?", ok: "Destroy", cancel: "No, don't Destroy"
             }
