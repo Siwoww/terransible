@@ -76,6 +76,13 @@ pipeline{
             }
         }
 
+        //Test playbook
+        stage('Application Check'){
+            steps{
+                ansiblePlaybook(inventory: '/ansible-share/aws_hosts', playbook: 'playbooks/test-playbook.yml')
+            }
+        }
+
         //Destroy validation
         stage('Validate Destroy'){
             when{

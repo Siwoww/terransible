@@ -1,0 +1,20 @@
+---
+- name: Test for Grafana and Prometheus access
+  hosts: main
+  gather_facts: no
+
+  tasks:
+
+    #Grafana test
+    - name: Grafana Check
+      ansible.builtin.uri:
+        url: http://{{ inventory_name }}:3000
+        follow_redirects: none
+        status_code: [302]
+    
+    #Prometheus test
+    - name: Prometheus Check
+      ansible.builtin.uri:
+        url: http://{{ inventory_name }}:9090
+        follow_redirects: none
+        status_code: [302]
