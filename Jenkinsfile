@@ -45,9 +45,9 @@ pipeline{
 
         stage("Inventory stage"){
             steps{
-                sh 'echo "$(terraform output -json inventory_instances|jq -r \'.[]\')" > /ansible-share/aws_hosts'
+                sh 'echo "[main]" > /ansible-share/aws_hosts'
+                sh 'echo "$(terraform output -json inventory_instances|jq -r \'.[]\')" >> /ansible-share/aws_hosts'
             }
-
         }
         //Wait for the instance to be created and ready
         stage('EC2 Wait'){

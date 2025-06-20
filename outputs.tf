@@ -28,6 +28,12 @@ output "inventory_instances" {
   }
 }
 
+/*output "instances_ids" {
+  value = [
+    for i in aws.aws_instance.server[*]: 
+  ]
+}*/
+
 
 /*output "inventory_instances" {
   #value = {for instance in aws_aws_instance.server[*]: instance.tags.Name => "${instance.public_ip} ${instance}"}
