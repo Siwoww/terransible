@@ -13,6 +13,15 @@ output "grafana_url" {
     ]
 }
 
+
+output "prometheus_url" {
+    value = [
+        for i in range(var.instance_number) :
+        "http://${aws_instance.server[i].public_ip}:9090"
+    ]
+}
+
+
 /*
 output "ssh-connect" {
         value = "ssh -i ${local_sensitive_file.private_key[count.index].filename} ubuntu@${aws_instance.server[count.index].public_ip}"
