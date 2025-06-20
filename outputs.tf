@@ -30,7 +30,7 @@ output "inventory_instances" {
 
 output "instances_ids" {
   value = {
-    for i in aws.aws_instance.server[*]: i.tags.Name => i.id
+    for i in aws_instance.server[*]: i.tags.Name => i.id
   }
 }
 
