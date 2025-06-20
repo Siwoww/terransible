@@ -51,7 +51,7 @@ pipeline{
         //Wait for the instance to be created and ready
         stage('EC2 Wait'){
             steps{
-                sh 'aws ec2 wait instance-status-ok --instance-ids $(terraform output -json instances_ids|jq -r \'.[]\') --region eu-central-1'
+                sh 'aws ec2 wait instance-status-ok --instance-ids $(terraform output -json instances_ids|jq -r \'.[]\') --region $(terraform output -json region|jq -r \'.\')'
                 /*sh '''aws ec2 wait instance-status-ok \\
                 --instance-ids $(terraform show -json|jq -r \'.values\'.\'root_module\'.\'resources[] | select(.type == "aws_instance").values.id\') \\
                 --region eu-central-1'''*/
