@@ -16,7 +16,7 @@ pipeline{
             }
         }
 
-        stage('Plan'){
+        stage('Apply'){
             steps{
                 sh 'export TF_IN_AUTOMATION=true'
                 sh 'export AWS_SHARED_CREDENTIALS_FILE=/var/lib/jenkins/aws_creds'
