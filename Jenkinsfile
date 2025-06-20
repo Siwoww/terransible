@@ -4,6 +4,7 @@ pipeline{
     environment {
         TF_IN_AUTOMATION=true
         TF_CLI_CONFIG_FILE= credentials('tf-creds')
+        AWS_SHARED_CREDENTIALS_FILE=/var/lib/jenkins/aws_creds
     }
 
     stages{
@@ -21,8 +22,19 @@ pipeline{
 
         stage('Apply'){
             steps{
-                sh 'export AWS_SHARED_CREDENTIALS_FILE=/var/lib/jenkins/aws_creds'
                 sh 'terraform apply -auto-approve -no-color'
+            }
+        }
+
+        stage('EC2 Wait'){
+            steps{
+                sh 'aws ec2 wait instance-status-ok --region eu-central-1'
+            }
+        }
+
+        stage('Ansible'){
+            steps{
+                ansiblePlaybook(inventory: '/ansible-share/aws_hosts', playbook: 'playbooks/main-playbook.yml')
             }
         }
 
