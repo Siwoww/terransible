@@ -23,7 +23,7 @@ output "prometheus_url" {
 
 output "inventory_instances" {
   #value = {for instance in aws_aws_instance.server[*]: instance.tags.Name => "${instance.public_ip} ${instance}"}
-  value = {for i in (var.instance_number): aws_instance.server[i].tags.Name => "${aws_instance.server[i].public_ip} ansible_ssh_private_key_file=${var.private_key_path}-${aws_instance.server[i].id}.pem ansible_user=${var.ansible_user}"}
+  value = {for i in range(var.instance_number): aws_instance.server[i].tags.Name => "${aws_instance.server[i].public_ip} ansible_ssh_private_key_file=${var.private_key_path}-${aws_instance.server[i].id}.pem ansible_user=${var.ansible_user}"}
 }
 /*
 output "ssh-connect" {
