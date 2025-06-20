@@ -12,7 +12,7 @@
       state: present
     loop:
       - fontconfig
-      - java-21-openjdk
+      - java-11-openjdk #java-21-openjdk
 
   - name: Import Jenkins GPG key
     ansible.builtin.rpm_key:
