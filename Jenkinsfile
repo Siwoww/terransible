@@ -80,7 +80,7 @@ pipeline{
             echo 'Success!'
         }
         failure{
-            sh 'terraform destroy -auto-approve'
+            sh 'terraform destroy -auto-approve -no-color'
         }
     }
 }
