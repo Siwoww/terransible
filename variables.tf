@@ -41,3 +41,7 @@ variable "private_key_path" {
   type = string
   default = "/ansible-share/ssh_keys/terraform"
 }
+
+variable "ansible_user" {
+  default = "ubuntu"
+}
