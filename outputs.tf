@@ -28,11 +28,11 @@ output "inventory_instances" {
   }
 }
 
-/*output "instances_ids" {
-  value = [
-    for i in aws.aws_instance.server[*]: 
-  ]
-}*/
+output "instances_ids" {
+  value = {
+    for i in aws.aws_instance.server[*]: i.tags.Name => i.id
+  }
+}
 
 
 /*output "inventory_instances" {
