@@ -26,8 +26,9 @@ pipeline{
 
         //Apply validation
         stage('Validate Apply'){
-            input message "Do you really want to Apply this plan?", ok "Apply this plan", cancel "No, don't Apply this plan"
-            
+            input{
+                message: "Do you really want to Apply this plan?", ok: "Apply this plan", cancel: "No, don't Apply this plan"
+            }
         }
 
         //Terraform apply
