@@ -34,7 +34,7 @@ pipeline{
         //Terraform apply
         stage('Apply'){
             steps{
-                sh 'terraform apply -auto-approve -no-color'
+                sh 'terraform apply -auto-approve -no-color -var-file="grande_pippo"'
             }
         }
 
@@ -70,6 +70,16 @@ pipeline{
         stage('Destroy'){
             steps{
                 sh 'terraform destroy -auto-approve -no-color'
+            }
+        }
+
+        //Success/failure management
+        post{
+            success{
+                echo 'Success!'
+            }
+            failure{
+                sh 'terraform destroy -auto-approve'
             }
         }
 
