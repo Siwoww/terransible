@@ -49,7 +49,7 @@ pipeline{
                 sh 'echo "$(terraform output -json inventory_instances|jq -r \'.[]\')" >> /ansible-share/aws_hosts'
             }
         }*/
-        
+
         //Wait for the instance to be created and ready
         stage('EC2 Wait'){
             steps{
@@ -99,7 +99,7 @@ pipeline{
     //Success/failure management
     post{
         success{
-            echo 'Success!'
+            echo 'SUCCESS!'
         }
         failure{
             sh 'terraform destroy -auto-approve -no-color -var-file="$BRANCH_NAME.tfvars"'
