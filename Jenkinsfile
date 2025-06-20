@@ -34,7 +34,7 @@ pipeline{
         //Terraform apply
         stage('Apply'){
             steps{
-                sh 'terraform apply -auto-approve -no-color -var-file="grande_pippo"'
+                sh 'terraform apply -auto-approve -no-color'
             }
         }
 
