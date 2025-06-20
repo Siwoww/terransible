@@ -26,5 +26,12 @@ pipeline{
             }
         }
 
+        stage('Destroy'){
+            steps{
+                sh 'export AWS_SHARED_CREDENTIALS_FILE=/var/lib/jenkins/aws_creds'
+                sh 'terraform destroy -auto-approve -no-color'
+            }
+        }
+
     }
 }
