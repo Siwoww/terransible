@@ -1,33 +1,32 @@
 ---
-- name: Install Jenkins
+- name: Install Jenkins on Fedora OS
   hosts: localhost
   become: yes
 
   #JENKINS
   tasks:
   - name: Install Java
-    ansible.builtin.apt:
+    ansible.builtin.dnf:
       update_cache: true
       name: "{{ item }}"
       state: present
     loop:
       - fontconfig
-      - openjdk-21-jre
+      - java-21-openjdk
 
-  - name: Download Jenkins GPG key
-    ansible.builtin.get_url:
-      url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-      dest: /usr/share/keyrings/jenkins-keyring.asc
-      # state: present
+  - name: Import Jenkins GPG key
+    ansible.builtin.rpm_key:
+      key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+      state: present
 
   - name: Add Jenkins repo
-    ansible.builtin.apt_repository:
-      repo: deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/
-      filename: jenkins
-      update_cache: true
+    ansible.builtin.get_url:
+      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
+      # state: present
     
   - name: Refresh repo and Install Jenkins
-    ansible.builtin.apt:
+    ansible.builtin.dnf:
       update_cache: true
       name: jenkins
       state: present
