@@ -72,16 +72,15 @@ pipeline{
                 sh 'terraform destroy -auto-approve -no-color'
             }
         }
+    }
 
-        //Success/failure management
-        post{
-            success{
-                echo 'Success!'
-            }
-            failure{
-                sh 'terraform destroy -auto-approve'
-            }
+    //Success/failure management
+    post{
+        success{
+            echo 'Success!'
         }
-
+        failure{
+            sh 'terraform destroy -auto-approve'
+        }
     }
 }
