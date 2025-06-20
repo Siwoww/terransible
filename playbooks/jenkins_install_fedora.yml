@@ -12,7 +12,8 @@
       state: present
     loop:
       - fontconfig
-      - java-11-openjdk #java-21-openjdk
+      - java-21-openjdk #java-21-openjdk
+      - java-21-openjdk-devel
 
   - name: Import Jenkins GPG key
     ansible.builtin.rpm_key:
@@ -33,7 +34,7 @@
 
   - name: Start and Enable jenkins.service
     ansible.builtin.systemd_service:
-      #daemon_reload: true
+      daemon_reload: true
       enabled: true
       name: jenkins.service
       state: started
