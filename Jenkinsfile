@@ -13,6 +13,7 @@ pipeline{
         //Terraform init
         stage('Init'){
             steps{
+                sh 'cat $BRANCH_NAME.tfvars'
                 sh 'terraform init -no-color'
             }
         }
@@ -20,7 +21,7 @@ pipeline{
         //Terraform plan
         stage('Plan'){
             steps{
-                sh 'terraform plan -no-color'
+                sh 'terraform plan -no-color -var-file="$BRANCH_NAME.tfvars"'
             }
         }
 
@@ -34,7 +35,7 @@ pipeline{
         //Terraform apply
         stage('Apply'){
             steps{
-                sh 'terraform apply -auto-approve -no-color'
+                sh 'terraform apply -auto-approve -no-color -var-file="$BRANCH_NAME.tfvars"'
             }
         }
 
@@ -69,7 +70,7 @@ pipeline{
         //Terraform destroy
         stage('Destroy'){
             steps{
-                sh 'terraform destroy -auto-approve -no-color'
+                sh 'terraform destroy -auto-approve -no-color -var-file="$BRANCH_NAME.tfvars"'
             }
         }
     }
@@ -80,7 +81,7 @@ pipeline{
             echo 'Success!'
         }
         failure{
-            sh 'terraform destroy -auto-approve -no-color'
+            sh 'terraform destroy -auto-approve -no-color -var-file="$BRANCH_NAME.tfvars"'
         }
     }
 }
