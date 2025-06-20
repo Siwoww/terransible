@@ -26,14 +26,14 @@ resource "aws_instance" "server" {
     #server_private_key = local_sensitive_file.private_key.filename
   }
 
-  provisioner "local-exec" {
+  /*provisioner "local-exec" {
     command = "echo '${self.public_ip} ansible_ssh_private_key_file=${var.private_key_path}-${self.id}.pem ansible_user=${var.ansible_user}' >> ${var.inventory_path}" #removed: && aws ec2 wait instance-status-ok --instance-ids ${self.id} --region ${var.region}
   }
 
   provisioner "local-exec" {
     when = destroy
     command = "sed -i '/^[0-9]/d' ${self.tags.inventory_path}"
-  }
+  }*/
 
   count = var.instance_number
 }

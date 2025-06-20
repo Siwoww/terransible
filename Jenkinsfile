@@ -7,13 +7,12 @@ pipeline{
         AWS_SHARED_CREDENTIALS_FILE='/var/lib/jenkins/aws_creds'
     }
 
-    
+
     stages{
 
         //Terraform init
         stage('Init'){
             steps{
-                sh 'cat $BRANCH_NAME.tfvars'
                 sh 'terraform init -no-color'
             }
         }
@@ -43,10 +42,19 @@ pipeline{
             }
         }
 
+        stage("Inventory stage"){
+            steps{
+                sh 'echo "[main]" > /ansible-share/aws_hosts;echo "$(terraform output -json inventory_instances|jq -r \'.[]\')" >> /ansible-share/aws_hosts'
+            }
+        }
+
         //Wait for the instance to be created and ready
         stage('EC2 Wait'){
             steps{
-                sh 'aws ec2 wait instance-status-ok --region eu-central-1'
+                sh 'aws ec2 wait instance-status-ok --instance-ids $(terraform output -json instances_ids|jq -r \'.[]\') --region $(terraform output -json region|jq -r \'.\')'
+                /*sh '''aws ec2 wait instance-status-ok \\
+                --instance-ids $(terraform show -json|jq -r \'.values\'.\'root_module\'.\'resources[] | select(.type == "aws_instance").values.id\') \\
+                --region eu-central-1'''*/
             }
         }
 
@@ -65,6 +73,13 @@ pipeline{
         stage('Ansible'){
             steps{
                 ansiblePlaybook(inventory: '/ansible-share/aws_hosts', playbook: 'playbooks/main-playbook.yml')
+            }
+        }
+
+        //Test playbook
+        stage('Application Check'){
+            steps{
+                ansiblePlaybook(inventory: '/ansible-share/aws_hosts', playbook: 'playbooks/test-playbook.yml')
             }
         }
 
@@ -90,9 +105,12 @@ pipeline{
     //Success/failure management
     post{
         success{
-            echo 'Success!'
+            echo 'SUCCESS!'
         }
         failure{
+            sh 'terraform destroy -auto-approve -no-color -var-file="$BRANCH_NAME.tfvars"'
+        }
+        aborted{
             sh 'terraform destroy -auto-approve -no-color -var-file="$BRANCH_NAME.tfvars"'
         }
     }
