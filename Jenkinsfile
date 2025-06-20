@@ -85,12 +85,12 @@ pipeline{
 
         //Destroy validation
         stage('Validate Destroy'){
-            when{
+            /*when{
                 beforeInput true
                 branch "dev"
-            }
+            }*/
             steps{
-                input message: "Do you really want to Destroy?", ok: "Destroy", cancel: "No, don't Destroy"
+                input message: "Do you really want to Destroy?", ok: "Destroy", cancel: "Destroy anyway"
             }
         }
 
