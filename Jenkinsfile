@@ -4,7 +4,7 @@ pipeline{
     environment {
         TF_IN_AUTOMATION=true
         TF_CLI_CONFIG_FILE= credentials('tf-creds')
-        AWS_SHARED_CREDENTIALS_FILE=/var/lib/jenkins/aws_creds
+        AWS_SHARED_CREDENTIALS_FILE='/var/lib/jenkins/aws_creds'
     }
 
     stages{
