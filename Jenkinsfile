@@ -45,10 +45,24 @@ pipeline{
             }
         }
 
+        //Playbook execution validation
+        stage('Validate Ansible Playbook'){
+            steps{
+                input message: "Do you really want to execute the Ansible Playbook?", ok: "Execute Ansible", cancel: "No, don't execute the Playbook"
+            }
+        }
+
         //Ansible playbook
         stage('Ansible'){
             steps{
                 ansiblePlaybook(inventory: '/ansible-share/aws_hosts', playbook: 'playbooks/main-playbook.yml')
+            }
+        }
+
+        //Destroy validation
+        stage('Validate Destroy'){
+            steps{
+                input message: "Do you really want to Destroy?", ok: "Destroy", cancel: "No, don't Destroy"
             }
         }
 
