@@ -14,6 +14,13 @@ pipeline{
         stage('Workspace selection'){
             steps{
                 sh 'cp /ansible-share/backends/backend-$BRANCH_NAME.tf backend.tf'
+                sh 'cat backend.tf|grep -A "name"'
+            }
+        }
+
+        stage('Validate Workspace'){
+            steps{
+                input message: "Do you validate this workspace?", ok: "Yes, I do", cancel: "No, I don't"
             }
         }
 
@@ -72,7 +79,7 @@ pipeline{
                 branch "dev"
             }
             steps{
-                input message: "Do you want to run Ansible?", ok: "Run Ansible", cancel: "No, don't don't run Ansible"
+                input message: "Do you want to run Ansible?", ok: "Run Ansible", cancel: "Don't run Ansible"
             }
         }
 
