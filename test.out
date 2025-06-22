@@ -1,0 +1,2 @@
+3.67.70.94 ansible_ssh_private_key_file=/ansible-share/ssh_keys/terraform-i-07b29f49d32b912fd.pem ansible_user=ubuntu
+18.193.111.245 ansible_ssh_private_key_file=/ansible-share/ssh_keys/terraform-i-0409eb209347ff238.pem ansible_user=ubuntu
