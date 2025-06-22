@@ -10,10 +10,17 @@ pipeline{
 
     stages{
 
+        //Select workspace
+        stage('Workspace selection'){
+            steps{
+                sh 'cp /ansible-share/backends/backend-$BRANCH_NAME.tf backend.tf'
+            }
+        }
+
         //Terraform init
         stage('Init'){
             steps{
-                sh 'terraform init -no-color'
+                sh 'terraform init -no-color -backend-config="backend-$BRANCH_NAME.tf"'
             }
         }
 
