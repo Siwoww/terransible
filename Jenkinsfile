@@ -20,7 +20,7 @@ pipeline{
         //Terraform init
         stage('Init'){
             steps{
-                sh 'terraform init -no-color -backend-config="backend-$BRANCH_NAME.tf"'
+                sh 'terraform init -no-color'
             }
         }
 
