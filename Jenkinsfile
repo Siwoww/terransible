@@ -14,7 +14,7 @@ pipeline{
         stage('Workspace selection'){
             steps{
                 sh 'cp /ansible-share/backends/backend-$BRANCH_NAME.tf backend.tf'
-                sh 'cat backend.tf|grep -A "name"'
+                sh 'cat backend.tf|grep -A 2 "name"'
             }
         }
 
