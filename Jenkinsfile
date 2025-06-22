@@ -10,6 +10,13 @@ pipeline{
 
     stages{
 
+        //Select workspace
+        stage('Workspace selection'){
+            steps{
+                sh 'cp /ansible-share/backends/backend-$BRANCH_NAME.tf backend.tf'
+            }
+        }
+
         //Terraform init
         stage('Init'){
             steps{
