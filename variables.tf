@@ -45,3 +45,7 @@ variable "private_key_path" {
 variable "ansible_user" {
   default = "ubuntu"
 }
+
+variable "environment" {
+  default = "dev"
+}
