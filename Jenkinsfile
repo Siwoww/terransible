@@ -65,7 +65,7 @@ pipeline{
                 branch "dev"
             }
             steps{
-                input message: "Do you really want to execute the Ansible Playbook?", ok: "Execute Ansible", cancel: "No, don't execute the Playbook"
+                input message: "Do you want to run Ansible?", ok: "Run Ansible", cancel: "No, don't don't run Ansible"
             }
         }
 
