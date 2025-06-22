@@ -4,7 +4,7 @@ terraform {
     organization = "siwoww-terransible" 
 
     workspaces { 
-      name = var.environment
+      name = "dev"
     }
 
   } 
