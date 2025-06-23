@@ -22,7 +22,7 @@ resource "aws_instance" "server" {
 
   tags = {
     Name = "server-${count.index + 1}-${var.environment}"
-    inventory_path = var.inventory_path
+    inventory_path = "${var.inventory_path}-${var.environment}"
     #server_private_key = local_sensitive_file.private_key.filename
   }
 

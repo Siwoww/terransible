@@ -58,7 +58,7 @@ pipeline{
 
         stage("Inventory stage"){
             steps{
-                sh 'echo "[main]" > /ansible-share/aws_hosts;echo "$(terraform output -json inventory_instances|jq -r \'.[]\')" >> /ansible-share/aws_hosts'
+                sh 'echo "[main]" > /ansible-share/aws_hosts-$BRANCH_NAME;echo "$(terraform output -json inventory_instances|jq -r \'.[]\')" >> /ansible-share/aws_hosts-$BRANCH_NAME'
             }
         }
 
@@ -86,14 +86,14 @@ pipeline{
         //Ansible playbook
         stage('Ansible'){
             steps{
-                ansiblePlaybook(inventory: '/ansible-share/aws_hosts', playbook: 'playbooks/main-playbook.yml')
+                ansiblePlaybook(inventory: '/ansible-share/aws_hosts-$BRANCH_NAME', playbook: 'playbooks/main-playbook.yml')
             }
         }
 
         //Test playbook
         stage('Application Check'){
             steps{
-                ansiblePlaybook(inventory: '/ansible-share/aws_hosts', playbook: 'playbooks/test-playbook.yml')
+                ansiblePlaybook(inventory: '/ansible-share/aws_hosts-$BRANCH_NAME', playbook: 'playbooks/test-playbook.yml')
             }
         }
 
