@@ -5,7 +5,7 @@ resource "aws_vpc" "main-vpc" {
   enable_dns_support = true
 
   tags = {
-    Name = "main-vpc-${random_id.random.dec}"
+    Name = "main-vpc-${random_id.random.dec}-${var.environment}"
   }
 
   lifecycle {
@@ -20,7 +20,7 @@ resource "aws_internet_gateway" "main-internet-gateway" {
   vpc_id = aws_vpc.main-vpc.id
 
   tags = {
-    Name = "terransible-igw-${random_id.random.dec}"
+    Name = "terransible-igw-${random_id.random.dec}-${var.environment}"
   }
 }
 
@@ -28,7 +28,7 @@ resource "aws_internet_gateway" "main-internet-gateway" {
 resource "aws_route_table" "main-public-rt" {
   vpc_id = aws_vpc.main-vpc.id
   tags = {
-    Name = "main-public"
+    Name = "${var.environment}-public"
   }
 }
 
@@ -50,10 +50,10 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true # associa IP pubblico alle istanze che ne fanno parte
   availability_zone = local.available_zone[count.index]
 
-  count = length(local.available_zone)
+  count = var.public_subnets_number
 
   tags = {
-    Name = "public-subnet-${count.index + 1}"
+    Name = "public-subnet-${count.index + 1}-${var.environment}"
   }
 }
 
@@ -64,10 +64,10 @@ resource "aws_subnet" "private_subnet" {
   map_public_ip_on_launch = true # associa IP pubblico alle istanze che ne fanno parte
   availability_zone = local.available_zone[count.index]
 
-  count = length(local.available_zone)
+  count = var.private_subnets_number
 
   tags = {
-    Name = "private-subnet-${count.index + 1}"
+    Name = "private-subnet-${count.index + 1}-${var.environment}"
   }
 }
 
@@ -84,7 +84,7 @@ resource "aws_security_group" "main-sg" {
   description = "Security group for public instances"
 
   tags = {
-    Name = "public-sg"
+    Name = "public-sg-${var.environment}"
   }
 }
 

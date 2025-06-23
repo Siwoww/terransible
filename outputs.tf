@@ -13,7 +13,6 @@ output "grafana_url" {
     ]
 }
 
-
 output "prometheus_url" {
     value = [
         for i in range(var.instance_number) :

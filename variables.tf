@@ -1,6 +1,13 @@
 variable "vpc_cidr" {
   type = string
 }
+variable "private_subnets_number" {
+  default = 1
+}
+
+variable "public_subnets_number" {
+  default = 1
+}
 
 /*variable "public_subnet_cidr" {
   type = list(string)
