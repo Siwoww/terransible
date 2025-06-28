@@ -8,7 +8,7 @@ pipeline{
     }
 
     parameters {
-        choice(name: 'env', choices(['dev'],['main']), description: 'Ambiente:')
+        choice(name: 'env', choices(['dev','main']), description: 'Ambiente:')
     }
 
 
@@ -17,7 +17,7 @@ pipeline{
         //Select workspace
         stage('Workspace selection'){
             steps{
-                sh 'cp /ansible-share/backends/backend-${params.env}.tf backend.tf'
+                sh "cp /ansible-share/backends/backend-${params.env}.tf backend.tf"
                 sh 'cat backend.tf|grep -A 2 "name"'
             }
         }
@@ -38,7 +38,7 @@ pipeline{
         //Terraform plan
         stage('Plan'){
             steps{
-                sh 'terraform plan -no-color -var-file="${params.env}.tfvars"'
+                sh "terraform plan -no-color -var-file='${params.env}.tfvars'"
             }
         }
 
@@ -46,7 +46,7 @@ pipeline{
         stage('Validate Apply'){
             when{
                 beforeInput true
-                params.env "dev"
+                expression {params.env == "dev"}
             }
             steps{
                 input message: "Do you really want to Apply this plan?", ok: "Apply this plan", cancel: "No, don't Apply this plan"
@@ -56,13 +56,13 @@ pipeline{
         //Terraform apply
         stage('Apply'){
             steps{
-                sh 'terraform apply -auto-approve -no-color -var-file="${params.env}.tfvars"'
+                sh "terraform apply -auto-approve -no-color -var-file=${params.env}.tfvars"
             }
         }
 
         stage("Inventory stage"){
             steps{
-                sh 'echo "[main]" > /ansible-share/aws_hosts-${params.env};echo "$(terraform output -json inventory_instances|jq -r \'.[]\')" >> /ansible-share/aws_hosts-${params.env}'
+                sh "echo '[main]' > /ansible-share/aws_hosts-${params.env};echo $(terraform output -json inventory_instances|jq -r \'.[]\') >> /ansible-share/aws_hosts-${params.env}"
             }
         }
 
@@ -80,7 +80,7 @@ pipeline{
         stage('Validate Ansible Playbook'){
             when{
                 beforeInput true
-                params.env "dev"
+                expression {params.env == "dev"}
             }
             steps{
                 input message: "Do you want to run Ansible?", ok: "Run Ansible", cancel: "Don't run Ansible"
@@ -90,14 +90,14 @@ pipeline{
         //Ansible playbook
         stage('Ansible'){
             steps{
-                ansiblePlaybook(inventory: '/ansible-share/aws_hosts-${params.env}', playbook: 'playbooks/main-playbook.yml')
+                ansiblePlaybook(inventory: "/ansible-share/aws_hosts-${params.env}", playbook: "playbooks/main-playbook.yml")
             }
         }
 
         //Test playbook
         stage('Application Check'){
             steps{
-                ansiblePlaybook(inventory: '/ansible-share/aws_hosts-${params.env}', playbook: 'playbooks/test-playbook.yml')
+                ansiblePlaybook(inventory: "/ansible-share/aws_hosts-${params.env}", playbook: "playbooks/test-playbook.yml")
             }
         }
 
@@ -115,8 +115,8 @@ pipeline{
         //Terraform destroy
         stage('Destroy'){
             steps{
-                sh 'terraform destroy -auto-approve -no-color -var-file="${params.env}.tfvars"'
-                sh 'rm -f /ansible-share/aws_hosts-${params.env}'
+                sh "terraform destroy -auto-approve -no-color -var-file=${params.env}.tfvars"
+                sh "rm -f /ansible-share/aws_hosts-${params.env}"
             }
         }
     }
@@ -127,10 +127,10 @@ pipeline{
             echo 'SUCCESS!'
         }
         failure{
-            sh 'terraform destroy -auto-approve -no-color -var-file="${params.env}.tfvars"'
+            sh "terraform destroy -auto-approve -no-color -var-file=${params.env}.tfvars"
         }
         aborted{
-            sh 'terraform destroy -auto-approve -no-color -var-file="${params.env}.tfvars"'
+            sh "terraform destroy -auto-approve -no-color -var-file=${params.env}.tfvars"
         }
     }
 }
