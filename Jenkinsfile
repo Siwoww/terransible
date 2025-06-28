@@ -56,13 +56,13 @@ pipeline{
         //Terraform apply
         stage('Apply'){
             steps{
-                sh "terraform apply -auto-approve -no-color -var-file=${params.env}.tfvars"
+                sh "terraform apply -auto-approve -no-color -var-file='${params.env}.tfvars'"
             }
         }
 
         stage("Inventory stage"){
             steps{
-                sh "echo '[main]' > /ansible-share/aws_hosts-${params.env};echo $(terraform output -json inventory_instances|jq -r \'.[]\') >> /ansible-share/aws_hosts-${params.env}"
+                sh "echo '[main]' > '/ansible-share/aws_hosts-${params.env}';echo $(terraform output -json inventory_instances|jq -r \'.[]\') >> '/ansible-share/aws_hosts-${params.env}'"
             }
         }
 
@@ -115,7 +115,7 @@ pipeline{
         //Terraform destroy
         stage('Destroy'){
             steps{
-                sh "terraform destroy -auto-approve -no-color -var-file=${params.env}.tfvars"
+                sh "terraform destroy -auto-approve -no-color -var-file='${params.env}.tfvars'"
                 sh "rm -f /ansible-share/aws_hosts-${params.env}"
             }
         }
@@ -127,10 +127,10 @@ pipeline{
             echo 'SUCCESS!'
         }
         failure{
-            sh "terraform destroy -auto-approve -no-color -var-file=${params.env}.tfvars"
+            sh "terraform destroy -auto-approve -no-color -var-file='${params.env}.tfvars'"
         }
         aborted{
-            sh "terraform destroy -auto-approve -no-color -var-file=${params.env}.tfvars"
+            sh "terraform destroy -auto-approve -no-color -var-file='${params.env}.tfvars'"
         }
     }
 }
